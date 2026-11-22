@@ -13,7 +13,7 @@ async function portraitImage(item,test) {
   canvas.height = 1240;
   const context = canvas.getContext('2d',{alpha:false});
   context.fillStyle = '#FAF8F4';
-  context.fillRect(0,0,900,1125);
+  context.fillRect(0,0,canvas.width,canvas.height);
   const height = Math.min(source.naturalHeight,source.naturalWidth*664/900);
   const width = height*900/664;
   context.drawImage(source,(source.naturalWidth-width)/2,(source.naturalHeight-height)*.34,width,height,0,0,900,664);
