@@ -25,21 +25,32 @@
   let answers = [];
   let index = 0;
   let result;
-  try {
-    const draft = JSON.parse(sessionStorage.getItem(storageKey));
+  function readDraft(storage) {
+    try {
+      return JSON.parse(window[storage].getItem(storageKey));
+    } catch {
+      return null;
+    }
+  }
+  for (const draft of [readDraft('sessionStorage'),readDraft('localStorage')]) {
     if (Array.isArray(draft?.answers) && draft.answers.length<=test.questions.length &&
         draft.answers.every(answer=>Number.isInteger(answer) && answer>=1 && answer<=5) &&
         Number.isInteger(draft.index) && draft.index>=0 && draft.index<=Math.min(test.questions.length-1,draft.answers.length)) {
       answers = draft.answers;
       index = draft.index;
       if (draft.finished && answers.length===test.questions.length) result = scoreInventory(test,answers);
+      break;
     }
-  } catch {
-    // The quiz is usable when embedded browsers block session storage.
   }
 
   const save = () => {
-    try { sessionStorage.setItem(storageKey,JSON.stringify({index,answers,finished:Boolean(result)})); }
+    const draft = JSON.stringify({index,answers,finished:Boolean(result)});
+    try { sessionStorage.setItem(storageKey,draft); }
+    catch { /* Keep the current in-memory state. */ }
+    try {
+      if (result || !answers.length) localStorage.removeItem(storageKey);
+      else localStorage.setItem(storageKey,draft);
+    }
     catch { /* Keep the current in-memory state. */ }
   };
   const focusHeading = () => {
@@ -61,6 +72,7 @@
         <button type="button" class="control" data-action="previous" ${index===0?'disabled':''}>上一题</button>
         <button type="button" class="control primary" data-action="next" ${answers[index]?'':'disabled'}>${index===test.questions.length-1?'看结果':'下一题'}</button>
       </div>
+      <button type="button" class="clear-quiz" data-action="clear" ${answers.length?'':'hidden'}>清除本题集进度</button>
     </section>`;
     if (focus) focusHeading();
   }
@@ -128,6 +140,7 @@
         for (const option of app.querySelectorAll('[data-answer]')) option.setAttribute('aria-pressed',String(option===control));
         app.querySelector('progress').value = answers.length;
         app.querySelector('[data-action="next"]').disabled = false;
+        app.querySelector('[data-action="clear"]').hidden = false;
         break;
       case 'previous':
         index--;
@@ -159,6 +172,9 @@
         catch { status.textContent = '请长按上方链接复制。'; }
         break;
       }
+      case 'clear':
+        if (!confirm('清除这套题的作答进度并从第一题开始？')) break;
+        // Continue to the same reset used on the result page.
       case 'restart':
         answers = [];
         index = 0;

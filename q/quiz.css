@@ -34,6 +34,7 @@ button { font:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; 
 .control:disabled { opacity:.44; cursor:default; }
 .actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:15px; }
 .quiz-actions { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.6fr); }
+.clear-quiz { min-height:44px; margin-top:8px; padding:0 4px; border:0; background:transparent; color:var(--muted); font-size:.82rem; text-decoration:underline; text-underline-offset:.2em; }
 .surface { border:1px solid var(--line); border-radius:30px; background:linear-gradient(160deg,var(--snow),var(--paper)); box-shadow:0 12px 36px rgba(53,73,90,.07); }
 .ledger { display:grid; gap:12px; margin-block:16px; }
 .ledger a { display:grid; grid-template-columns:clamp(92px,26vw,148px) minmax(0,1fr); align-items:center; min-height:98px; overflow:hidden; text-decoration:none; padding:8px; }
