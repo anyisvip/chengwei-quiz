@@ -1062,5 +1062,453 @@ window.CHENGWEI_INVENTORIES = [
     ],
     "portrait": "等纸鸢起风，也把手中的线理好。",
     "license": "https://ipip.ori.org/"
+  },
+  {
+    "id": "ipip-pace",
+    "art": "stillness",
+    "title": "在忙和慢之间，找回自己的节奏",
+    "short_title": "松弛与节奏",
+    "subtitle": "从忙碌、做事前的斟酌到面对变化，看看你习惯怎样分配力气。",
+    "duration": "5–7 分钟",
+    "category": "evidence",
+    "inventory": "ipip",
+    "method": "Johnson IPIP-NEO-120 · 完整分量表选编",
+    "source": "https://ipip.ori.org/30FacetNEO-PI-RItems.htm",
+    "language": "https://ipip.ori.org/Mandarin%20translation%20of%20IPIP-NEO-120.htm",
+    "study": "https://ipip.ori.org/ChineseIPIP-120reliability.htm",
+    "domains": {
+      "活动节奏": [
+        "竹影度墙",
+        "日常活动的密度，以及慢慢来的偏好。",
+        "最近的闲暇里，哪件事让你愿意停久一点？"
+      ],
+      "行动前斟酌": [
+        "临窗看影",
+        "行动之前愿不愿意停一停、再想一想。",
+        "哪一件决定，多想一晚会让你更从容？"
+      ],
+      "尝试变化": [
+        "逐风试纸",
+        "对新鲜变化与熟悉做法的偏好。",
+        "哪件习惯里的小改动，值得试一次看看？"
+      ],
+      "启动与执行": [
+        "风来便起",
+        "做好准备、着手任务和把计划付诸行动的习惯。",
+        "想做却迟迟没开始的事，第一步能不能短到两分钟？"
+      ],
+      "压力下的反应": [
+        "涟漪相叠",
+        "压力增加时感到难以招架或保持镇定的倾向。",
+        "如果把眼前的事拆小，哪一步可以请人一起做？"
+      ],
+      "愉悦体验": [
+        "水面有光",
+        "日常感到快乐、好玩和留意生活明亮一面的倾向。",
+        "最近哪一个微小的愉快片刻，你想记下来？"
+      ]
+    },
+    "questions": [
+      {
+        "source": 17,
+        "facet": "E4",
+        "dimension": "活动节奏",
+        "reverse": false,
+        "text": "我总是很忙。"
+      },
+      {
+        "source": 18,
+        "facet": "O4",
+        "dimension": "尝试变化",
+        "reverse": false,
+        "text": "比起一成不变，我更喜欢有些变化。"
+      },
+      {
+        "source": 25,
+        "facet": "C5",
+        "dimension": "启动与执行",
+        "reverse": false,
+        "text": "我总是有所准备。"
+      },
+      {
+        "source": 26,
+        "facet": "N6",
+        "dimension": "压力下的反应",
+        "reverse": false,
+        "text": "我很容易慌乱。"
+      },
+      {
+        "source": 27,
+        "facet": "E6",
+        "dimension": "愉悦体验",
+        "reverse": false,
+        "text": "我的快乐会感染身边的人。"
+      },
+      {
+        "source": 30,
+        "facet": "C6",
+        "dimension": "行动前斟酌",
+        "reverse": true,
+        "text": "我会还没想清楚就投入一件事。"
+      },
+      {
+        "source": 47,
+        "facet": "E4",
+        "dimension": "活动节奏",
+        "reverse": false,
+        "text": "我总处在奔忙之中。"
+      },
+      {
+        "source": 48,
+        "facet": "O4",
+        "dimension": "尝试变化",
+        "reverse": true,
+        "text": "我更愿意继续做自己熟悉的事。"
+      },
+      {
+        "source": 55,
+        "facet": "C5",
+        "dimension": "启动与执行",
+        "reverse": false,
+        "text": "我能落实自己的计划。"
+      },
+      {
+        "source": 56,
+        "facet": "N6",
+        "dimension": "压力下的反应",
+        "reverse": false,
+        "text": "事情一多，我就容易感觉招架不住。"
+      },
+      {
+        "source": 57,
+        "facet": "E6",
+        "dimension": "愉悦体验",
+        "reverse": false,
+        "text": "我的生活有很多乐趣。"
+      },
+      {
+        "source": 60,
+        "facet": "C6",
+        "dimension": "行动前斟酌",
+        "reverse": true,
+        "text": "我会草率做决定。"
+      },
+      {
+        "source": 77,
+        "facet": "E4",
+        "dimension": "活动节奏",
+        "reverse": false,
+        "text": "空闲时我也会做很多事。"
+      },
+      {
+        "source": 78,
+        "facet": "O4",
+        "dimension": "尝试变化",
+        "reverse": true,
+        "text": "我不喜欢改变。"
+      },
+      {
+        "source": 85,
+        "facet": "C5",
+        "dimension": "启动与执行",
+        "reverse": true,
+        "text": "我常把时间白白耗掉。"
+      },
+      {
+        "source": 86,
+        "facet": "N6",
+        "dimension": "压力下的反应",
+        "reverse": false,
+        "text": "我常觉得自己无力处理眼前的事。"
+      },
+      {
+        "source": 87,
+        "facet": "E6",
+        "dimension": "愉悦体验",
+        "reverse": false,
+        "text": "我热爱生活。"
+      },
+      {
+        "source": 90,
+        "facet": "C6",
+        "dimension": "行动前斟酌",
+        "reverse": true,
+        "text": "我做事会匆忙行事。"
+      },
+      {
+        "source": 107,
+        "facet": "E4",
+        "dimension": "活动节奏",
+        "reverse": true,
+        "text": "我喜欢慢慢来。"
+      },
+      {
+        "source": 108,
+        "facet": "O4",
+        "dimension": "尝试变化",
+        "reverse": true,
+        "text": "我习惯沿用传统做法。"
+      },
+      {
+        "source": 115,
+        "facet": "C5",
+        "dimension": "启动与执行",
+        "reverse": true,
+        "text": "我很难着手开始任务。"
+      },
+      {
+        "source": 116,
+        "facet": "N6",
+        "dimension": "压力下的反应",
+        "reverse": true,
+        "text": "面对压力时，我能保持冷静。"
+      },
+      {
+        "source": 117,
+        "facet": "E6",
+        "dimension": "愉悦体验",
+        "reverse": false,
+        "text": "我会留意生活中好的那一面。"
+      },
+      {
+        "source": 120,
+        "facet": "C6",
+        "dimension": "行动前斟酌",
+        "reverse": true,
+        "text": "我会不经思考就行动。"
+      }
+    ],
+    "portrait": "窗边的竹影挪了半寸，时间也可以慢一点。",
+    "aliases": [
+      "慢生活",
+      "松弛感",
+      "忙碌",
+      "倦怠"
+    ],
+    "license": "https://ipip.ori.org/"
+  },
+  {
+    "id": "ipip-belonging",
+    "art": "connection-new",
+    "title": "独处和靠近之间，有自己的距离",
+    "short_title": "独处与归属",
+    "subtitle": "看一看独处、社交、信任和体察如何出现在不同关系里。",
+    "duration": "5–7 分钟",
+    "category": "evidence",
+    "inventory": "ipip",
+    "method": "Johnson IPIP-NEO-120 · 完整分量表选编",
+    "source": "https://ipip.ori.org/30FacetNEO-PI-RItems.htm",
+    "language": "https://ipip.ori.org/Mandarin%20translation%20of%20IPIP-NEO-120.htm",
+    "study": "https://ipip.ori.org/ChineseIPIP-120reliability.htm",
+    "domains": {
+      "交友自在": [
+        "茶席的来客",
+        "与人相处时的自在感和结交新朋友的意愿。",
+        "刚遇到新朋友时，怎样的开场最容易让你放松？"
+      ],
+      "群体偏好": [
+        "喧处的客席",
+        "对人数多的聚会、交谈与独处的偏好。",
+        "怎样的聚会规模，让你离开时还有余力？"
+      ],
+      "社交拘谨": [
+        "廊下听雨",
+        "在不熟悉的人或情境中感到被注意、拘谨的倾向。",
+        "什么样的环境会让你更愿意按自己的节奏说话？"
+      ],
+      "对人的信任": [
+        "桥上的来风",
+        "在信息有限时相信对方说法和善意的倾向。",
+        "想起一次建立信任的经历，对方做了哪件具体的事？"
+      ],
+      "乐于帮助": [
+        "留一杯热茶",
+        "关心他人感受并愿意为对方腾出时间的倾向。",
+        "最近一次帮助别人时，有没有先问对方需要什么？"
+      ],
+      "体察处境": [
+        "隔水相望",
+        "对处境艰难的人投注关心与同情的倾向。",
+        "想起一次被照顾的经历，什么举动最让你觉得自己被看见？"
+      ]
+    },
+    "questions": [
+      {
+        "source": 2,
+        "facet": "E1",
+        "dimension": "交友自在",
+        "reverse": false,
+        "text": "我比较容易交到新朋友。"
+      },
+      {
+        "source": 4,
+        "facet": "A1",
+        "dimension": "对人的信任",
+        "reverse": false,
+        "text": "我信任别人。"
+      },
+      {
+        "source": 7,
+        "facet": "E2",
+        "dimension": "群体偏好",
+        "reverse": false,
+        "text": "我很喜欢大型聚会。"
+      },
+      {
+        "source": 14,
+        "facet": "A3",
+        "dimension": "乐于帮助",
+        "reverse": false,
+        "text": "我很愿意帮助别人。"
+      },
+      {
+        "source": 16,
+        "facet": "N4",
+        "dimension": "社交拘谨",
+        "reverse": false,
+        "text": "我觉得主动接近别人有些难。"
+      },
+      {
+        "source": 29,
+        "facet": "A6",
+        "dimension": "体察处境",
+        "reverse": false,
+        "text": "我同情没有住所的人。"
+      },
+      {
+        "source": 32,
+        "facet": "E1",
+        "dimension": "交友自在",
+        "reverse": false,
+        "text": "跟其他人相处时，我感到自在。"
+      },
+      {
+        "source": 34,
+        "facet": "A1",
+        "dimension": "对人的信任",
+        "reverse": false,
+        "text": "我相信别人的出发点是好的。"
+      },
+      {
+        "source": 37,
+        "facet": "E2",
+        "dimension": "群体偏好",
+        "reverse": false,
+        "text": "聚会上我会和许多不同的人交谈。"
+      },
+      {
+        "source": 44,
+        "facet": "A3",
+        "dimension": "乐于帮助",
+        "reverse": false,
+        "text": "我关心别人。"
+      },
+      {
+        "source": 46,
+        "facet": "N4",
+        "dimension": "社交拘谨",
+        "reverse": false,
+        "text": "我害怕引起别人的注意。"
+      },
+      {
+        "source": 59,
+        "facet": "A6",
+        "dimension": "体察处境",
+        "reverse": false,
+        "text": "我同情处境不如自己的人。"
+      },
+      {
+        "source": 62,
+        "facet": "E1",
+        "dimension": "交友自在",
+        "reverse": true,
+        "text": "我会避开和别人的接触。"
+      },
+      {
+        "source": 64,
+        "facet": "A1",
+        "dimension": "对人的信任",
+        "reverse": false,
+        "text": "我相信别人说的话。"
+      },
+      {
+        "source": 67,
+        "facet": "E2",
+        "dimension": "群体偏好",
+        "reverse": true,
+        "text": "我更喜欢独处。"
+      },
+      {
+        "source": 74,
+        "facet": "A3",
+        "dimension": "乐于帮助",
+        "reverse": true,
+        "text": "我不太在意别人的感受。"
+      },
+      {
+        "source": 76,
+        "facet": "N4",
+        "dimension": "社交拘谨",
+        "reverse": false,
+        "text": "我只有和朋友在一起时才觉得自在。"
+      },
+      {
+        "source": 89,
+        "facet": "A6",
+        "dimension": "体察处境",
+        "reverse": true,
+        "text": "我对别人遇到的难题不感兴趣。"
+      },
+      {
+        "source": 92,
+        "facet": "E1",
+        "dimension": "交友自在",
+        "reverse": true,
+        "text": "我常跟别人保持距离。"
+      },
+      {
+        "source": 94,
+        "facet": "A1",
+        "dimension": "对人的信任",
+        "reverse": true,
+        "text": "我不信任别人。"
+      },
+      {
+        "source": 97,
+        "facet": "E2",
+        "dimension": "群体偏好",
+        "reverse": true,
+        "text": "我会避开人群。"
+      },
+      {
+        "source": 104,
+        "facet": "A3",
+        "dimension": "乐于帮助",
+        "reverse": true,
+        "text": "我不愿意为别人抽出时间。"
+      },
+      {
+        "source": 106,
+        "facet": "N4",
+        "dimension": "社交拘谨",
+        "reverse": true,
+        "text": "棘手的社交场面不会让我困扰。"
+      },
+      {
+        "source": 119,
+        "facet": "A6",
+        "dimension": "体察处境",
+        "reverse": true,
+        "text": "我会尽量不去想那些处境艰难、需要帮助的人。"
+      }
+    ],
+    "portrait": "隔着一道月门，也可以抬眼相望。",
+    "aliases": [
+      "社交疲劳",
+      "孤独",
+      "陪伴",
+      "归属感"
+    ],
+    "license": "https://ipip.ori.org/"
   }
 ];
