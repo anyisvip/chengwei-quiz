@@ -8,10 +8,58 @@ function playFollowup(test,index,firstChoice) {
   return test.followups[test.questions[0].options[firstChoice]?.archetype] ?? '';
 }
 
+const inventoryScenes = {
+  ipip50:'回想上次你和熟人一起做事、以及和陌生人一起做事。你在哪个场合更主动开口或安排下一步？各记一个做法。',
+  'ipip-relations':'挑两次有分歧的聊天，一次对方很熟，一次还不熟。你当时说了哪句开场白？可以把原话写下来对照。',
+  'ipip-emotions':'回想一次临时变动。记下你最先察觉的情绪，再记下十分钟后的变化。换到另一个相似场景时，两次反应在哪里相同？',
+  'ipip-initiative':'找一件立刻动手的小事，再找一件只记在备忘录的点子。两次最早出现的阻力是什么？',
+  'ipip-pace':'各挑一个一下就被排满的上午和一个留了空档的上午。你从哪件事开始，什么时候察觉自己想停一停？',
+  'ipip-belonging':'比较一次自在的独处和一次自在的相聚。各记一处细节，比如你有没有主动提议再坐一会儿。',
+};
+
 function inventoryHighlights(test, scores) {
   return Object.entries(test.domains).map(([name,[title,description,prompt]])=>({
     name,title,description,prompt,score:scores[name],distance:Math.abs(scores[name]-3),
   })).sort((a,b)=>b.distance-a.distance);
+}
+
+function inventoryPattern(highlights) {
+  const higher = highlights.filter(item=>item.score>=3.5);
+  const lower = highlights.filter(item=>item.score<=2.5);
+  const describe = (items,label)=>items.length
+    ? `${label}的方向包括${items.slice(0,2).map(({name,score})=>`「${name}」${score} 分`).join('、')}。`
+    : '';
+  return describe(higher,'较常符合')+describe(lower,'较少符合') ||
+    '各项均值都接近作答中点。可以展开逐题作答，看看你常选中间，还是在不同题目上往两个方向选。';
+}
+
+function inventoryObservation(test, dimension, score, answers) {
+  const values = test.questions.flatMap((question,index)=>{
+    const answer = answers?.[index];
+    if (question.dimension!==dimension || !Number.isInteger(answer) || answer<1 || answer>5) return [];
+    return [question.reverse?6-answer:answer];
+  });
+  const higher = values.filter(value=>value>3).length;
+  const lower = values.filter(value=>value<3).length;
+  const direction = score>3
+    ? '这次的作答整体往这个方向靠近。'
+    : score<3 ? '这次的作答整体较少符合这个方向。' : '这次的平均分落在作答中点。';
+  if (!values.length) return direction;
+  const context = higher && lower
+    ? '这组题里出现了两端的选择。可以对照题干描写的场合，看看在哪些情境下反应会变。'
+    : '可以找一道印象深的题，回想一个支持该回答的实际经历。';
+  return `${direction} 统一计分方向后，${higher} 题高于中点，${lower} 题低于中点，${values.length-higher-lower} 题选在中间。${context}`;
+}
+
+function playReading(test, result, answers) {
+  const most = Math.max(...result.counts);
+  const leaders = result.counts.flatMap((count,index)=>count===most?[index]:[]);
+  const [story,company,caption] = test.readings[leaders.length===1?leaders[0]:test.archetypes.length];
+  const moments = test.questions.flatMap((question,index)=>{
+    const choice = question.options[answers?.[index]];
+    return choice && leaders.includes(choice.archetype) ? [choice.text] : [];
+  }).slice(0,2);
+  return {story,company,caption,moments};
 }
 
 function scoreInventory(test, answers) {

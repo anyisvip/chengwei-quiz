@@ -1,11 +1,12 @@
 'use strict';
 
 const quizIllustration = test => test.play ? '../'+test.art : '../assets/chengwei_inventory/'+test.art+'.webp';
+const quizResultIllustration = test => '../assets/chengwei_results/'+test.id+'.webp';
 const portraitFileName = 'chengwei-portrait.jpg';
 async function portraitImage(item,test) {
   const source = new Image();
   const qr = new Image();
-  source.src = quizIllustration(test);
+  source.src = quizResultIllustration(test);
   qr.src = '../assets/chengwei_inventory/qr-'+test.id+'.png';
   await Promise.all([source.decode(),qr.decode(),document.fonts.load('500 62px "Chengwei Heritage Display"',item.title)]);
   const canvas = document.createElement('canvas');
@@ -31,7 +32,8 @@ async function portraitImage(item,test) {
   context.font = '500 31px system-ui, sans-serif';
   const lines = [];
   let line = '';
-  for (const character of item.subtitle) {
+  const subtitle = test.play ? playReading(test,item).caption : item.subtitle;
+  for (const character of subtitle) {
     if (context.measureText(line+character).width>764) {
       lines.push(line);
       line = '';

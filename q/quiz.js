@@ -83,8 +83,10 @@
 
   function renderResult(focus) {
     const highlights = test.play ? [] : inventoryHighlights(test,result.scores);
+    const story = test.play ? playReading(test,result,answers.map(answer=>answer-1)) : null;
     app.innerHTML = `<article class="result">
-      <header class="surface result-lead">${image(test)}<div>
+      <header class="surface result-lead">
+        <img src="${quizResultIllustration(test)}" alt="" width="1200" height="800" fetchpriority="high"><div>
         <span class="subtle">${escape(test.short_title)} · 白泽心笺</span>
         <h1 tabindex="-1">${escape(result.title)}</h1><p>${escape(result.subtitle)}</p>
         <div class="actions">${button('prepare','生成并分享心笺',true)}</div>
@@ -99,15 +101,25 @@
           ${button('copy','复制链接')}
         </div>
       </section>
-      ${test.play?'':`<section class="surface score-card"><h2>这次的测评轮廓</h2>
-        <p class="subtle">每项得分为 1 到 5，3 是作答中点。展开一项可以读解释。</p>
+      ${story?`<section class="surface reading-note play-story">
+        <h2>如果给你这段故事拍续集</h2><p>${escape(story.story)}</p>
+        <blockquote>${escape(story.caption)}</blockquote>
+        <h2>约谁一起玩</h2><p>${escape(story.company)}</p>
+        ${story.moments.length?`<details><summary>回看你的两次选择</summary>
+          <ul>${story.moments.map(moment=>`<li>${escape(moment)}</li>`).join('')}</ul></details>`:''}
+      </section>`:`<section class="surface score-card"><h2>这次的测评轮廓</h2>
+        <p>${escape(inventoryPattern(highlights))}</p>
+        <p class="subtle">每项是 1 到 5 的平均分，3 对应「说不准」的作答中点。这里用 0.5 分以上的距离提示先读哪些项。</p>
         ${highlights.map(({name,description,prompt,score},i)=>`<details ${i===0?'open':''}><summary>${escape(name)}　${score} / 5</summary>
         <meter min="1" max="5" value="${score}" aria-label="${escape(name)}"></meter>
-        <p>${escape(description)}</p><p class="subtle">${escape(prompt)}</p></details>`).join('')}
-      </section>`}
+        <p>${escape(description)}</p><p>${escape(inventoryObservation(test,name,score,answers))}</p>
+        <p class="subtle">${escape(prompt)}</p></details>`).join('')}
+      </section>
+      <section class="surface reading-note"><h2>找两件小事对照</h2>
+        <p>${escape(inventoryScenes[test.id])}</p></section>`}
       <section class="surface reading-note">${test.play
         ?'<p>这是一次情境趣测，答案留在浏览器里。好友打开链接可以自己玩一遍。</p>'
-        :`<p>答案和分数仅在当前浏览器中计算。中文题干暂无本地常模，结果供自我探索。</p>
+        :`<p>各维度取题目平均分，反向题以 6 减去作答分值。答案和分数在当前浏览器中计算。中文题干暂无本地常模，结果供自我探索。</p>
         <p><a href="${escape(test.source)}">查看 IPIP 题库和计分</a></p>`}
         <div class="actions">${button('restart','重新答题')}<a class="control" href="./">试试其他题集</a></div>
       </section>
