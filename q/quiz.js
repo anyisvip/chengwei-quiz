@@ -2,13 +2,13 @@
 
 (() => {
   const app = document.getElementById('quiz-app');
-  const entries = window.CHENGWEI_INVENTORIES;
+  const entries = [...window.CHENGWEI_PLAY_QUIZZES,...window.CHENGWEI_INVENTORIES];
   const requested = new URLSearchParams(location.search).get('t');
   const test = entries.find(item=>item.id===requested);
   const escape = value => String(value).replace(/[&<>"']/g, character=>({
     '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;',
   }[character]));
-  const image = test => `<img src="${inventoryIllustration(test)}" alt="" width="1200" height="800">`;
+  const image = test => `<img src="${quizIllustration(test)}" alt="" width="1200" height="800">`;
   const button = (action,label,primary=false) =>
     `<button type="button" class="control${primary?' primary':''}" data-action="${action}">${label}</button>`;
 
@@ -25,6 +25,8 @@
   let answers = [];
   let index = 0;
   let result;
+  const choicesFor = index => test.play ? test.questions[index].options.map(option=>option.text) : inventoryChoices;
+  const score = () => getResult(test,test.play?answers.map(answer=>answer-1):answers);
   function readDraft(storage) {
     try {
       return JSON.parse(window[storage].getItem(storageKey));
@@ -34,11 +36,11 @@
   }
   for (const draft of [readDraft('sessionStorage'),readDraft('localStorage')]) {
     if (Array.isArray(draft?.answers) && draft.answers.length<=test.questions.length &&
-        draft.answers.every(answer=>Number.isInteger(answer) && answer>=1 && answer<=5) &&
+        draft.answers.every((answer,index)=>Number.isInteger(answer) && answer>=1 && answer<=choicesFor(index).length) &&
         Number.isInteger(draft.index) && draft.index>=0 && draft.index<=Math.min(test.questions.length-1,draft.answers.length)) {
       answers = draft.answers;
       index = draft.index;
-      if (draft.finished && answers.length===test.questions.length) result = scoreInventory(test,answers);
+      if (draft.finished && answers.length===test.questions.length) result = score();
       break;
     }
   }
@@ -59,14 +61,16 @@
   };
 
   function renderQuestion(focus) {
+    const followup = playFollowup(test,index,answers[0]-1);
     app.innerHTML = `<section class="question">
       <div class="eyeline"><span>${escape(test.short_title)}</span><span>第 ${index+1} / ${test.questions.length} 题</span></div>
       <progress value="${answers.length}" max="${test.questions.length}" aria-label="作答进度"></progress>
-      <img class="question-art" src="${inventoryIllustration(test)}" alt="">
+      <img class="question-art" src="${quizIllustration(test)}" alt="">
+      ${followup?`<p class="subtle">${escape(followup)}</p>`:''}
       <h1 tabindex="-1">${escape(test.questions[index].text)}</h1>
-      <p class="subtle">这句话和你平常的样子有多符合？</p>
-      <div class="choices" role="group" aria-label="选择符合程度">
-        ${inventoryChoices.map((label,i)=>`<button type="button" data-action="answer" data-answer="${i+1}" aria-pressed="${answers[index]===i+1}">${label}</button>`).join('')}
+      ${test.play?'':'<p class="subtle">这句话和你平常的样子有多符合？</p>'}
+      <div class="choices" role="group" aria-label="选择答案">
+        ${choicesFor(index).map((label,i)=>`<button type="button" data-action="answer" data-answer="${i+1}" aria-pressed="${answers[index]===i+1}">${escape(label)}</button>`).join('')}
       </div>
       <div class="actions quiz-actions">
         <button type="button" class="control" data-action="previous" ${index===0?'disabled':''}>上一题</button>
@@ -78,7 +82,7 @@
   }
 
   function renderResult(focus) {
-    const highlights = inventoryHighlights(test,result.scores);
+    const highlights = test.play ? [] : inventoryHighlights(test,result.scores);
     app.innerHTML = `<article class="result">
       <header class="surface result-lead">${image(test)}<div>
         <span class="subtle">${escape(test.short_title)} · 白泽心笺</span>
@@ -95,14 +99,16 @@
           ${button('copy','复制链接')}
         </div>
       </section>
-      <section class="surface score-card"><h2>这次的测评轮廓</h2>
+      ${test.play?'':`<section class="surface score-card"><h2>这次的测评轮廓</h2>
         <p class="subtle">每项得分为 1 到 5，3 是作答中点。展开一项可以读解释。</p>
         ${highlights.map(({name,description,prompt,score},i)=>`<details ${i===0?'open':''}><summary>${escape(name)}　${score} / 5</summary>
         <meter min="1" max="5" value="${score}" aria-label="${escape(name)}"></meter>
         <p>${escape(description)}</p><p class="subtle">${escape(prompt)}</p></details>`).join('')}
-      </section>
-      <section class="surface reading-note"><p>答案和分数仅在当前浏览器中计算。中文题干暂无本地常模，结果供自我探索。</p>
-        <p><a href="${escape(test.source)}">查看 IPIP 题库和计分</a></p>
+      </section>`}
+      <section class="surface reading-note">${test.play
+        ?'<p>这是一次情境趣测，答案留在浏览器里。好友打开链接可以自己玩一遍。</p>'
+        :`<p>答案和分数仅在当前浏览器中计算。中文题干暂无本地常模，结果供自我探索。</p>
+        <p><a href="${escape(test.source)}">查看 IPIP 题库和计分</a></p>`}
         <div class="actions">${button('restart','重新答题')}<a class="control" href="./">试试其他题集</a></div>
       </section>
     </article>`;
@@ -149,7 +155,7 @@
         break;
       case 'next':
         if (index===test.questions.length-1) {
-          result = scoreInventory(test,answers);
+          result = score();
           save();
           renderResult(true);
         } else {

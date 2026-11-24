@@ -3,6 +3,11 @@ const storyDirection = (option,index) => option.archetype ?? index;
 const inventoryChoices = ['很不符合','不太符合','说不准','比较符合','非常符合'];
 const questionnaireScale = test => test.inventory ? 5 : test.id==='tipi10' ? 7 : test.id==='inner16' ? 5 : 0;
 
+function playFollowup(test,index,firstChoice) {
+  if (!test.play || index!==1) return '';
+  return test.followups[test.questions[0].options[firstChoice]?.archetype] ?? '';
+}
+
 function inventoryHighlights(test, scores) {
   return Object.entries(test.domains).map(([name,[title,description,prompt]])=>({
     name,title,description,prompt,score:scores[name],distance:Math.abs(scores[name]-3),
@@ -41,8 +46,9 @@ for (const [i,question] of t.questions.entries()) {
   counts[storyDirection(choice,answers[i])]++;
 }
 const leading=counts.map((count,i)=>count===Math.max(...counts)?i:-1).filter(i=>i>=0);
-const title=leading.map(i=>t.archetypes[i]).join(' · ');
-const subtitle=leading.length>1?'本次有多种选择方向并列，可以分别读，也可以对照它们出现在什么场景。'
-  :t.reflections?.[leading[0]] ?? '从选项分布出发，看看哪些习惯在这次探索里更常出现。';
+const blend = leading.length>1 ? t.blend : undefined;
+const title=blend?.[0] ?? leading.map(i=>t.archetypes[i]).join(' · ');
+const subtitle=blend?.[1] ?? (leading.length>1?'本次有多种选择方向并列，可以分别读，也可以对照它们出现在什么场景。'
+  :t.reflections?.[leading[0]] ?? '从选项分布出发，看看哪些习惯在这次探索里更常出现。');
 return {type:'story',title,subtitle,counts,stamp:'ORIGINAL CREATIVE EXPERIENCE',archetypes:t.archetypes};
 }

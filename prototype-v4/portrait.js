@@ -1,11 +1,11 @@
 'use strict';
 
-const inventoryIllustration = test => '../assets/chengwei_inventory/'+test.art+'.webp';
+const quizIllustration = test => test.play ? '../'+test.art : '../assets/chengwei_inventory/'+test.art+'.webp';
 const portraitFileName = 'chengwei-portrait.jpg';
 async function portraitImage(item,test) {
   const source = new Image();
   const qr = new Image();
-  source.src = inventoryIllustration(test);
+  source.src = quizIllustration(test);
   qr.src = '../assets/chengwei_inventory/qr-'+test.id+'.png';
   await Promise.all([source.decode(),qr.decode(),document.fonts.load('500 62px "Chengwei Heritage Display"',item.title)]);
   const canvas = document.createElement('canvas');
@@ -29,14 +29,26 @@ async function portraitImage(item,test) {
   context.font = '500 68px "Chengwei Heritage Display", serif';
   context.fillText(item.title,64,750,772);
   context.font = '500 31px system-ui, sans-serif';
-  context.fillText(item.subtitle,68,854,764);
+  const lines = [];
+  let line = '';
+  for (const character of item.subtitle) {
+    if (context.measureText(line+character).width>764) {
+      lines.push(line);
+      line = '';
+    }
+    line += character;
+  }
+  lines.push(line);
+  lines.slice(0,3).forEach((text,index)=>{
+    context.fillText(index===2 && lines.length>3 ? text.slice(0,-1)+'…' : text,68,836+index*36,764);
+  });
   context.strokeStyle = 'rgba(53,73,90,.24)';
   context.beginPath();
   context.moveTo(68,948);
   context.lineTo(832,948);
   context.stroke();
   context.font = '600 30px system-ui, sans-serif';
-  context.fillText('扫码测一测 · '+test.short_title,68,1004,520);
+  context.fillText((test.play?'扫码玩一玩 · ':'扫码测一测 · ')+test.short_title,68,1004,520);
   context.font = '500 23px system-ui, sans-serif';
   context.fillText('打开就能答题，做完也有自己的心笺。',68,1050,520);
   const [base,query] = publicQuizLink(test).split('?');
